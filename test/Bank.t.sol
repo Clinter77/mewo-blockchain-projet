@@ -11,11 +11,12 @@ contract BankTest is Test {
   address user = address(0x1);
   Bank bank;
   // uint date = block.timeStamp;
-  uint256 delay = block.timestamp - 1 days;
+  uint256 delay = 1 days;
 
   function setUp() public {
-    bank = new Bank();
+    bank = new Bank(block.timestamp);
   }
+
 
   function testReceive() public {
     uint256 testAmount = 3 ether;
@@ -39,11 +40,15 @@ contract BankTest is Test {
     vm.prank(user); // prochaine ligne exécutée en tant qu'user
     // currentDate = block.timestamp - 86400;
 
-    vm.warp(delay);
-    emit log_uint(delay);
-    vm.expectRevert("Action should be taken after 7 days");
+    // vm.warp(delay);
+    // emit log_uint(delay);
+    // vm.expectRevert("Action should be taken after 7 days");
 
     // bank.withdraw();
     // assertTrue(bank.actionTaken(), "Action should be taken after 7 days");
+
+    vm.warp(block.timestamp - delay);
+    bank.withdraw(block.timestamp - delay);
+    assertTrue(bank.actionTaken(), "Action should be taken after time delay");
   }
 }

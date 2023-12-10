@@ -16,15 +16,18 @@ contract Bank {
     // date à partir de laquelle les utilisateurs pourront retirer l'argent (leurs Tokens)
     uint dateDelayForRetrieve = 7 days;
 
-    uint currentDate = block.timestamp;
+    
 
     bool public actionTaken = false;
 
-    constructor() {}
+    string message = "";
 
-    /* constructor() {
-        currentDate = block.timestamp - 86400;
-    } */
+    // constructor() {}
+
+    constructor(uint256 currentDate) {
+        // je définis la currentDate à la date du jour
+        currentDate = block.timestamp;
+    }
 
     // receive() pour recevoir l'argent (les Tokens) sur le compte concerné
     receive() external payable {
@@ -39,14 +42,18 @@ contract Bank {
 
     // withdraw() pour retirer l'argent (les Tokens) du compte de l'utilisateur
     // avant : function withdraw() external payable {
-    function withdraw() external payable {
+    function withdraw(uint256 currentDate) external payable {
 
-        console.log(dates[msg.sender]);
-        console.log(currentDate);
+        console.log("dates[msg.sender] ",dates[msg.sender]);
+        console.log("currentDate ",currentDate);
         // vérification du retrait possible en fonction de la date
         // require([dates[msg.sender]] >= block.timestamp);
         require(balances[msg.sender] > 0, "No funds to withdraw");
-        require(currentDate >= dates[msg.sender], "La date limite pour retirer vos Tokens n'est pas encore atteinte.");
+        require(dates[msg.sender] >= currentDate + dateDelayForRetrieve, "La date limite pour retirer vos Tokens n'est pas encore atteinte.");
+        if (dates[msg.sender] >= currentDate + dateDelayForRetrieve) {
+             revert("La date limite pour retirer vos Tokens n'est pas encore atteinte.");
+        }
+        // require(currentDate + dateDelayForRetrieve >= dates[msg.sender], "La date limite pour retirer vos Tokens n'est pas encore atteinte.");
         // ou on peut aussi ainsi : if(dates[msg.sender] < block.timestamp) revert();
 
         // retrait de l'argent (des Tokens) de l'utilisateur
@@ -55,6 +62,8 @@ contract Bank {
         // mise à jour de la balance après le retrait
         // reset de la balance
         balances[msg.sender] = 0;
+
+        // -------------    
         
     }
     
