@@ -10,17 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@openzeppelin/test-helpers": "^0.5.16",
-    "chai": "^4.3.10",
-    "forge": "^2.3.0",
-    "forge-std": "^1.1.2",
-    "hardhat": "^2.19.2",
-    "hardhat-ethernal": "^3.2.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "truffle": "^5.11.5",
-    "viem": "^1.19.11",
-    "wagmi": "^1.4.8"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

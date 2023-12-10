@@ -12,7 +12,18 @@ contract BankTest is Test {
   Bank bank;
   // uint date = block.timeStamp;
   uint256 delay = 1 days;
+  uint256 daysInSecond = 86400 seconds;
   uint256 currentDate = block.timestamp;
+
+  event LogValueCurrentDate(uint256 indexed value);
+
+  error TooEarly(uint time);
+  
+  
+  modifier onlyAfter(uint time) {
+    if (block.timestamp <= time) revert TooEarly(time);
+    _;
+  }
 
   function setUp() public {
     bank = new Bank(block.timestamp);
@@ -37,7 +48,7 @@ contract BankTest is Test {
   //   dates[msg.sender] = block.timestamp - 86400;
   // }
 
-  function testWithdraw(uint currentDateWithDelayApplied) public {
+  function testWithdraw(uint256 currentDateWithDelayApplied) public {
     // vm.prank(user); // prochaine ligne exécutée en tant qu'user
     // currentDate = block.timestamp - 86400;
 
@@ -47,9 +58,27 @@ contract BankTest is Test {
 
     // bank.withdraw();
     // assertTrue(bank.actionTaken(), "Action should be taken after 7 days");
-    currentDateWithDelayApplied = block.timestamp - 86400;
+    
+    currentDateWithDelayApplied = block.timestamp - 86400 seconds;
+    // Émettez l'événement pour observer la valeur
+    emit LogValueCurrentDate(currentDateWithDelayApplied);
+    
+    // vm.warp(block.timestamp - daysInSecond);
+    // bank.withdraw(currentDate - daysInSecond);
+    assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+
     vm.warp(currentDateWithDelayApplied);
     bank.withdraw(currentDateWithDelayApplied);
+    // currentDateWithDelayApplied = subtractDays(86400 seconds);
     assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+    // bank.withdraw(currentDateWithDelayApplied);
   }
+
+  function subtractDays(uint256 secondsToSubtract) public view returns (uint256) {
+    // Calcul du timestamp actuel moins le nombre de jours converti en secondes
+    require(secondsToSubtract <= 86400 seconds, "Substraction would result in underflow");
+    uint256 newTimestamp = block.timestamp - (secondsToSubtract * daysInSecond);
+    return newTimestamp;
+  }
+
 }
