@@ -12,6 +12,7 @@ contract BankTest is Test {
   Bank bank;
   // uint date = block.timeStamp;
   uint256 delay = 1 days;
+  uint256 currentDate = block.timestamp;
 
   function setUp() public {
     bank = new Bank(block.timestamp);
@@ -36,7 +37,7 @@ contract BankTest is Test {
   //   dates[msg.sender] = block.timestamp - 86400;
   // }
 
-  function testWithdraw() public {
+  function testWithdraw(uint currentDateWithDelayApplied) public {
     vm.prank(user); // prochaine ligne exécutée en tant qu'user
     // currentDate = block.timestamp - 86400;
 
@@ -46,9 +47,9 @@ contract BankTest is Test {
 
     // bank.withdraw();
     // assertTrue(bank.actionTaken(), "Action should be taken after 7 days");
-
-    vm.warp(block.timestamp - delay);
-    bank.withdraw(block.timestamp - delay);
+    currentDateWithDelayApplied = block.timestamp - 86400;
+    vm.warp(currentDateWithDelayApplied);
+    bank.withdraw(currentDateWithDelayApplied);
     assertTrue(bank.actionTaken(), "Action should be taken after time delay");
   }
 }
