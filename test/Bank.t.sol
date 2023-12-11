@@ -14,7 +14,7 @@ contract BankTest is Test {
   uint256 delay = 1 days;
   uint256 daysInSecond = 86400 seconds;
   uint256 currentDate = block.timestamp;
-  uint256 currentDateWithDelayApplied = currentDate + 86400;
+  // uint256 currentDateWithDelayApplied = currentDate + 86400;
 
   event LogValueCurrentDate(uint256 indexed value);
 
@@ -35,7 +35,7 @@ contract BankTest is Test {
     uint256 testAmount = 3 ether;
     vm.deal(user, testAmount); // donner 3 Ether à l'user
     vm.prank(user); // prochaine ligne exécutée en tant qu'user
-    console.log("currentDateWithDelayApplied ",currentDateWithDelayApplied);
+    
 
     // appel de payable pour tester l'ajout de Token
     payable(address(bank)).call{value: testAmount}(""); // surligné en jaune pour indiquer qu'en fait dans le cas présent, un modifier pourrait être utilisé à la place
@@ -50,7 +50,7 @@ contract BankTest is Test {
   //   dates[msg.sender] = block.timestamp - 86400;
   // }
 
-  function testWithdraw(currentDateWithDelayApplied) public {
+  function testWithdraw(uint currentDateWithDelayApplied) public {
     // vm.prank(user); // prochaine ligne exécutée en tant qu'user
     // currentDate = block.timestamp - 86400;
 
@@ -62,9 +62,10 @@ contract BankTest is Test {
     // assertTrue(bank.actionTaken(), "Action should be taken after 7 days");
     
     currentDateWithDelayApplied = block.timestamp - 86400 seconds;
+    console.log("65 - currentDateWithDelayApplied ",currentDateWithDelayApplied);
     // Émettez l'événement pour observer la valeur
     emit LogValueCurrentDate(currentDateWithDelayApplied);
-    console.log("currentDateWithDelayApplied ",currentDateWithDelayApplied);
+    console.log("68 - currentDateWithDelayApplied ",currentDateWithDelayApplied);
     
     // vm.warp(block.timestamp - daysInSecond);
     // bank.withdraw(currentDate - daysInSecond);
