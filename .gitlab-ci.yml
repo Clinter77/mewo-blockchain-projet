@@ -1,0 +1,32 @@
+# included templates
+include:
+  # SonarQube template
+  - project: "to-be-continuous/sonar"
+    ref: "4.1"
+    file: "templates/gitlab-ci-sonar.yml"
+
+
+# secret variables
+# (define the variables below in your GitLab group/project variables)
+# SONAR_TOKEN: SonarQube authentication token (depends on your authentication method)
+# SONAR_LOGIN: SonarQube login (depends on your authentication method)
+# SONAR_PASSWORD: SonarQube password (depends on your authentication method)
+
+
+# variables
+variables:
+  SONAR_HOST_URL: "https://gitlab.tech.orange/christophe.dumortier/mewo-blockchain-projet"
+
+
+# your pipeline stages
+stages:
+  - build
+  - test
+  - package-build
+  - package-test
+  - infra
+  - deploy
+  - acceptance
+  - publish
+  - infra-prod
+  - production
