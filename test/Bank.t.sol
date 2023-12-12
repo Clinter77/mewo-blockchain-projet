@@ -102,4 +102,19 @@ contract BankTest is Test {
     return newTimestamp;
   }
 
+  function testWithdrawWithCorectDelay(uint currentDate) public {
+
+    /* définition d'une date correcte pour un possible retrait de Token (une date au moins égale à 7 jours) */
+    currentDate = 7 days;
+    console.log("currentDate ",currentDate); //  renvoie 1
+    
+    // Émettre l'événement pour observer la valeur
+    emit LogValueCurrentDate(currentDate);
+    
+    // assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+
+    vm.warp(currentDate);
+    bank.withdraw(currentDate);
+  }
+
 }
