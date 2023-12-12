@@ -7,7 +7,7 @@ const Motd: FC<MotdProps> = () => {
   const { data } = useMotdMessage();
   console.log('data : ')
   console.log(data)
-  return <p className="mb-2">Current MOTD: {data}</p>;
+  return <p className="mb-2">Tokens à envoyer: {data}</p>;
 };
 
 export default Motd;
