@@ -1,4 +1,4 @@
-# Verrouillage temporel - React + TypeScript + Vite + Solidity
+# Verrouillage temporel, environnements utilisés React + TypeScript + Vite + Solidity
 
 ### Introduction
 
