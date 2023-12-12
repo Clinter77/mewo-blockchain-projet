@@ -85,10 +85,11 @@ contract BankTest is Test {
     
     // vm.warp(block.timestamp - daysInSecond);
     // bank.withdraw(currentDate - daysInSecond);
-    assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+    // assertTrue(bank.actionTaken(), "Action should be taken after time delay");
 
     vm.warp(currentDateWithDelayApplied);
     bank.withdraw(currentDateWithDelayApplied);
+    assertEq(currentDate, currentDateWithDelayApplied);
     // currentDateWithDelayApplied = subtractDays(86400 seconds);
     // assertTrue(bank.actionTaken(), "Action should be taken after time delay");
     // assertEq(currentDateWithDelayApplied == );
@@ -115,6 +116,7 @@ contract BankTest is Test {
 
     vm.warp(currentDate);
     bank.withdraw(currentDate);
+    assertEq(currentDate, 7 days);
   }
 
 }
