@@ -91,6 +91,7 @@ contract BankTest is Test {
     bank.withdraw(currentDateWithDelayApplied);
     // currentDateWithDelayApplied = subtractDays(86400 seconds);
     // assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+    // assertEq(currentDateWithDelayApplied == );
     // bank.withdraw(currentDateWithDelayApplied);
   }
 
