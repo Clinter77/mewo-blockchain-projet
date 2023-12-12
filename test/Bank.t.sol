@@ -16,9 +16,12 @@ contract BankTest is Test {
   uint256 timestamp  = block.timestamp;
   uint256 daysInSecond = 6 days; // 6 jours en secondes
   uint numberOfDays = timestamp / daysInSecond;
+  uint dateDelayForRetrieve = 7 days;
 
   uint256 currentDate = block.timestamp;
   // uint256 currentDateWithDelayApplied = currentDate + 86400;
+
+  mapping(address=>uint) public dates;
   
 
   event LogValueCurrentDate(uint256 indexed value);
@@ -55,24 +58,28 @@ contract BankTest is Test {
   //   dates[msg.sender] = block.timestamp - 86400;
   // }  
      
-  function testWithdraw(uint currentDateWithDelayApplied) public {
+  function testWithdrawWithBadDelay(uint currentDateWithDelayApplied) public {
     // vm.prank(user); // prochaine ligne exécutée en tant qu'user
     // currentDate = block.timestamp - 86400;
 
+    /* définition d'une date inférieure à la date possible de retrait pour tester que le retrait
+    ne soit pas possible (car la date est inférieure à 7 jours) */
+    currentDateWithDelayApplied = currentDate + dateDelayForRetrieve - 1 days;
     // vm.warp(delay);
     // emit log_uint(delay);
     // vm.expectRevert("Action should be taken after 7 days");
 
     // bank.withdraw();
     // assertTrue(bank.actionTaken(), "Action should be taken after 7 days");
-    console.log("68 - currentDate ",currentDate); //  renvoie 1
+    console.log("currentDate ",currentDate); //  renvoie 1
     console.log("daysInSecond ",daysInSecond); //  renvoie 518400 soit 6 jours
     console.log("timestamp ",timestamp); //  renvoie 1
-    console.log("71 - numberOfDays ",numberOfDays); //  renvoie 0
+    console.log("currentDate + dateDelayForRetrieve ",currentDate + dateDelayForRetrieve - 1 days); //  renvoie 0
+    console.log("dates[msg.sender] ",dates[msg.sender]); // renvoie 
 
     currentDateWithDelayApplied = block.timestamp - 86400 seconds;
     console.log("65 - currentDateWithDelayApplied ",currentDateWithDelayApplied);
-    // Émettez l'événement pour observer la valeur
+    // Émettre l'événement pour observer la valeur
     emit LogValueCurrentDate(currentDateWithDelayApplied);
     console.log("68 - currentDateWithDelayApplied ",currentDateWithDelayApplied);
     
@@ -84,6 +91,7 @@ contract BankTest is Test {
     bank.withdraw(currentDateWithDelayApplied);
     // currentDateWithDelayApplied = subtractDays(86400 seconds);
     // assertTrue(bank.actionTaken(), "Action should be taken after time delay");
+    // assertEq(currentDateWithDelayApplied == );
     // bank.withdraw(currentDateWithDelayApplied);
   }
 

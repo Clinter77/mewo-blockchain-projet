@@ -1,34 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
 import './App.css'
+import Motd from './web3/Motd.tsx';
+import ChangeMessage from './web3/ChangeMessage.tsx';
+import Header from './web3/Header';
+import Wagmi from './web3/Wagmi.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Wagmi>
+      <div className="flex flex-col h-screen">
+        <Header />
+
+        <div className="flex items-center justify-center flex-grow">
+          <div className="min-w-[400px] border border-gray-400 rounded">
+            <div className="p-4">
+              <Motd />
+              <ChangeMessage />
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Wagmi>
   )
 }
 
